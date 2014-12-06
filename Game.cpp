@@ -68,7 +68,6 @@ vector<string> Game::print()
     toPrint.insert(toPrint.end(),
             nyanVector.begin(),
             nyanVector.end());
-    return nyanVector;
     while (toPrint.size() < _height)
         toPrint.push_back(whiteLine);
     return toPrint;

@@ -2,7 +2,7 @@
 CC = g++
 #CFLAGS are compile flags such as -lm to include <math.h>
 #or -std=c++0x for C++11
-CFLAGS = -std=c++0x -lncurses
+CFLAGS = -std=c++0x -lcurses -pthread
 #TARGET is the name of your main file
 TARGET = main
 #OBJECTS = $(TARGET).o library1.o library.o, all the header files here
