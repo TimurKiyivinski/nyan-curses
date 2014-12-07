@@ -58,21 +58,36 @@ Game::Game(int width, int height, Nyan *nyan, Text *start, Text *end)
 
 Game::~Game()
 {
+    // Free all game entities
     if (_nyan != NULL)
         delete _nyan;
     if (_start != NULL)
         delete _start;
     if (_end != NULL)
         delete _end;
+    // Remove all asteroids
     for (Asteroid *asteroid: _asteroids)
         delete asteroid;
 }
 
 // Game start splash screen
-vector<string> Game::splash() { return _start->getLooks(); }
+vector<string> Game::splash()
+{
+    vector<string> _splash = _start->getLooks();
+    _splash.push_back("Collect stars: * & +. Avoid asteroids.");
+    _splash.push_back("W: Up\tS: Down\tQ:Quit\tPress any key to continue..");
+    return _splash;
+}
 
 // Game over splash screen
-vector<string> Game::gameOver() { return _end->getLooks(); }
+vector<string> Game::gameOver()
+{
+    vector<string> _splash =_end->getLooks();
+    _nyan->getScore() == -100 ?
+        (_splash.push_back("You lost!")):
+        (_splash.push_back("Your score was: " + itos(_nyan->getScore())));
+    return _splash;
+}
 
 // Update the game and return the printable string vector
 vector<string> Game::print()
