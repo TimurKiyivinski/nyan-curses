@@ -10,6 +10,8 @@
 
 using namespace std;
 
+// Asteroids will fly throughout the game and either crash into Nyan and take points
+// or can double as stars that give extra points.
 class Asteroid: public Coordinates
 {
     private:

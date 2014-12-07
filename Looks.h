@@ -3,16 +3,17 @@
 
 #ifndef LOOKS_H
 #define LOOKS_H
-// The looks class is an abstract class that will be shared by all
-// objects that have a look or a shape in ascii to be printed. The
-// Screen class collaborates with this class in order to print Looks
-// out to the interface.
+.
 
 #include <string>
 #include <vector>
 
 using namespace std;
 
+// The looks class is an abstract class that will be shared by all
+// objects that have a look or a shape in ascii to be printed. The
+// Screen class collaborates with this class in order to print Looks
+// out to the interface
 class Looks
 {
     private:

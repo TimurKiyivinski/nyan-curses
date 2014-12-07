@@ -13,11 +13,15 @@
 
 using namespace std;
 
+// Convert int to string
 string itos(int i)
 {
+    // Create a simple stream
     stringstream myStream;
     string myString("");
+    // Add int into the stream
     myStream << i;
+    // Pipe the stream into the string
     myStream >> myString;
     return myString;
 }

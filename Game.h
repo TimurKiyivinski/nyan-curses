@@ -12,6 +12,8 @@
 
 using namespace std;
 
+// This is the main game class that will manage all updates such as 
+// moving the asteroids as well as managing collisions and the user score.
 class Game
 {
     private:
