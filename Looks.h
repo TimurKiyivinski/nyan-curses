@@ -3,7 +3,6 @@
 
 #ifndef LOOKS_H
 #define LOOKS_H
-.
 
 #include <string>
 #include <vector>
