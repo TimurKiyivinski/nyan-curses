@@ -28,6 +28,9 @@ class Game
         Game(int width, int height, Nyan *nyan, Text *start, Text *end);
         // Game destructor to free memory
         ~Game();
+        // Splash screen for game start and end
+        vector<string> splash();
+        vector<string> gameOver();
         // The whole game is updated and returned as a printable
         // string vector by this one method that is to be used by
         // Screen to draw to any implemented interface.

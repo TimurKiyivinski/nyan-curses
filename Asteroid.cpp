@@ -9,18 +9,19 @@
 using namespace std;
 
 // Asteroids have just one icon so Looks it ini
-Asteroid::Asteroid(char icon, int x, int y):
-    _icon(icon), _x(x), _y(y)
+Asteroid::Asteroid(char icon, int x, int y, int X, int Y):
+    Coordinates(x, y, X, Y), _icon(icon)
 {
 }
 
 // Collides with Nyan, collision is handled Game
 void Asteroid::collide(Nyan *nyan)
 {
-    // Skip non dangerous asteroid or stars
-    if (_icon == '*' || _icon == '+') return;
-    // Otherwise, hurt Nyan
-    nyan->popScore();
+    // Add points for stars
+    if (_icon == '*' || _icon == '+')
+        nyan->addScore();
+    // Otherwise, take points
+    else nyan->popScore();
 }
 
 // Get Asteroid icon

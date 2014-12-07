@@ -7,11 +7,25 @@
 #include "Text.h"
 #include <string>
 #include <vector>
+#include <sstream>
+#include <cstdlib>
+#include <ctime>
 
 using namespace std;
 
+string itos(int i)
+{
+    stringstream myStream;
+    string myString("");
+    myStream << i;
+    myStream >> myString;
+    return myString;
+}
+
 Game::Game(int width, int height, Nyan *nyan, Text *start, Text *end)
 {
+    // Set the random seed as this game depends on many random values
+    srand(time(NULL));
     // Initialize game values
     if (nyan != NULL)
         _nyan = nyan;
@@ -34,8 +48,11 @@ Game::Game(int width, int height, Nyan *nyan, Text *start, Text *end)
     for (int i(0); i < 8; i++)
     {
         Asteroid *_asteroid = new Asteroid(asteroid_icons[i],
-                0,
-                0);
+                rand() % width,
+                rand() % height,
+                _width,
+                _height);
+        _asteroids.push_back(_asteroid);
     }
 }
 
@@ -51,12 +68,18 @@ Game::~Game()
         delete asteroid;
 }
 
+// Game start splash screen
+vector<string> Game::splash() { return _start->getLooks(); }
+
+// Game over splash screen
+vector<string> Game::gameOver() { return _end->getLooks(); }
+
 // Update the game and return the printable string vector
 vector<string> Game::print()
 {
     vector<string> toPrint;
     // Status bar
-    string statusBar("Score: " + _nyan->getScore());
+    string statusBar("Score: " + itos(_nyan->getScore()));
     toPrint.push_back(statusBar);
     // Create empty white lines
     string whiteLine("");
@@ -70,5 +93,26 @@ vector<string> Game::print()
             nyanVector.end());
     while (toPrint.size() < _height)
         toPrint.push_back(whiteLine);
+    // Normalize the vector with equal lines
+    for (int y(0); y < _height; y++)
+    {
+        while (toPrint[y].length() < _width)
+            toPrint[y] += ' ';
+    }
+    // Update asteroid movements
+    for (Asteroid *asteroid: _asteroids)
+    {
+        asteroid->move();
+        // This is to avoid crashes on 64 bit machines
+        int asteroidX = asteroid->getX();
+        int asteroidY = asteroid->getY();
+        if (asteroidX == _width)
+            asteroid->setY(rand() % _height);
+        // Check for collision with Nyan
+        if (asteroidX >= _nyan->getX() && asteroidX <= _nyan->getX() + nyanVector[0].length())
+            if (asteroidY >= _nyan->getY() && asteroidY <= _nyan->getY() + nyanVector.size())
+                asteroid->collide(_nyan);
+        toPrint[asteroid->getY()][asteroidX] = asteroid->getLooks();
+    }
     return toPrint;
 }

@@ -30,7 +30,7 @@ void Coordinates::goDown() { if (_y > 0) _y--; }
 // Moves X by 1
 void Coordinates::move()
 {
-    _x == 0 ?
+    _x == 1 ?
         (_x = _X):
         (_x--);
 }

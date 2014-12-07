@@ -9,18 +9,7 @@
 #include "Screen.h"
 #include <fstream>
 #include <thread>
-
-#ifdef _WIN32
-    #include <windows.h>
-#else
-    #include <unistd.h>
-#endif
-
-#ifdef _WIN32
-    #define clock_sleep() Sleep(1000)
-#else
-    #define clock_sleep() sleep(1)
-#endif
+#include <chrono>
 
 using namespace std;
 
@@ -37,12 +26,14 @@ vector<string> fromFile(string fileName)
     return fileVector;
 }
 
-void gameThread(Game *game, Screen *gameScreen, bool *gameLoop)
+void gameThread(Game *game, Screen *gameScreen, Nyan *_nyan, bool *gameLoop)
 {
     while (*gameLoop)
     {
-        //clock_sleep();
+        this_thread::sleep_for(chrono::milliseconds(50));
         gameScreen->print(game->print());
+        if (_nyan->getScore() == -100)
+            *gameLoop = false;
     }
 }
 
@@ -79,10 +70,15 @@ int main(void)
     initscr();
 #endif
     bool gameLoop(true);
-    thread _gameThread(gameThread, game, gameScreen, &gameLoop);
+    gameScreen->print(game->splash());
+    getch();
+    thread _gameThread(gameThread, game, gameScreen, _nyan, &gameLoop);
     thread _inputThread(inputThread, _nyan, &gameLoop);
     _gameThread.join();
     _inputThread.join();
+    clear();
+    gameScreen->print(game->gameOver());
+    getch();
 #ifdef USES_CURSES_SCREEN
     endwin();
 #endif
